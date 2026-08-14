@@ -1,22 +1,22 @@
-document.querySelectorAll('a[href^="#"]').forEach(link => {
+const internalLinks = document.querySelectorAll('a[href^="#"]');
+internalLinks.forEach(link => {
   link.addEventListener('click', event => {
     const target = document.querySelector(link.getAttribute('href'));
     if (!target) return;
     event.preventDefault();
     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    history.replaceState(null, '', link.getAttribute('href'));
   });
 });
 
-const steps = document.querySelectorAll('.flow-step');
-const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-if (!prefersReducedMotion && 'IntersectionObserver' in window) {
+const sections = [...document.querySelectorAll('main section[id]')];
+const navLinks = [...document.querySelectorAll('.side-nav a')];
+if ('IntersectionObserver' in window) {
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        steps.forEach(step => step.classList.remove('active'));
-        entry.target.classList.add('active');
-      }
+      if (!entry.isIntersecting) return;
+      navLinks.forEach(link => link.classList.toggle('current', link.getAttribute('href') === `#${entry.target.id}`));
     });
-  }, { threshold: 0.55 });
-  steps.forEach(step => observer.observe(step));
+  }, { rootMargin: '-18% 0px -70% 0px', threshold: 0 });
+  sections.forEach(section => observer.observe(section));
 }
