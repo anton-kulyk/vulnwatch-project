@@ -41,24 +41,121 @@ VulnWatch is an assessment and decision-support platform. It does **not** claim 
 
 ## How the platform fits together
 
-```mermaid
-flowchart LR
-    A[Authorized website] --> B[Scan workflow]
-    B --> C[Observed signals]
-    C --> D[Risk analysis]
-    D --> E[Preview]
-    E --> F[Actionable report]
-    F --> G[Investigation and remediation]
-    F -. optional .-> H[Monitoring]
-    H --> B
+The diagram below describes the **public product model** at a technical workflow level. It shows how an authorized assessment can move from scope definition to observable signals, evidence-aware analysis, prioritized output, remediation, and re-assessment. It intentionally avoids exposing private implementation details, internal endpoints, deployment topology, or customer data paths.
 
-    classDef source fill:#e8f0ff,stroke:#2563eb,color:#0f172a
-    classDef core fill:#ecfdf5,stroke:#059669,color:#0f172a
-    classDef output fill:#fff7ed,stroke:#ea580c,color:#0f172a
-    class A source
-    class B,C,D,H core
-    class E,F,G output
+```mermaid
+flowchart TB
+    %% ─────────────────────────────────────────────────────────────
+    %% CONTROL PLANE: the operator decides what is allowed to happen
+    %% ─────────────────────────────────────────────────────────────
+    subgraph CONTROL["CONTROL PLANE · AUTHORIZATION & SCOPE"]
+        direction LR
+        OWNER["Asset owner / authorized operator"] --> TARGET["Target definition<br/>domain · URL · asset scope"]
+        TARGET --> INTENT["Assessment intent<br/>posture · verification · monitoring"]
+        INTENT --> PREVIEW["Preview & scope review"]
+        PREVIEW -->|"approved scope"| JOB["Assessment job<br/>controlled execution"]
+        PREVIEW -.->|"adjust or stop"| TARGET
+    end
+
+    %% ─────────────────────────────────────────────────────────────
+    %% COLLECTION PLANE: independent, observable signal families
+    %% ─────────────────────────────────────────────────────────────
+    subgraph COLLECT["COLLECTION PLANE · OBSERVABLE SIGNALS"]
+        direction LR
+        JOB --> ORCH["Assessment orchestrator"]
+        ORCH --> WEB["Web behavior<br/>HTTP responses · redirects · methods"]
+        ORCH --> TLS["Transport posture<br/>TLS · certificates · protocol clues"]
+        ORCH --> HDR["Browser-facing controls<br/>security headers · cookie attributes"]
+        ORCH --> RECON["Reconnaissance<br/>public surface · reachable paths"]
+        ORCH --> TECH["Technology signals<br/>observable frameworks · servers · libraries"]
+        WEB --> RAW["Raw observations"]
+        TLS --> RAW
+        HDR --> RAW
+        RECON --> RAW
+        TECH --> RAW
+    end
+
+    %% ─────────────────────────────────────────────────────────────
+    %% ANALYSIS PLANE: turn observations into explainable findings
+    %% ─────────────────────────────────────────────────────────────
+    subgraph ANALYZE["ANALYSIS PLANE · EVIDENCE & RISK CONTEXT"]
+        direction LR
+        RAW --> NORMALIZE["Normalize observations<br/>common finding shape · deduplication"]
+        NORMALIZE --> EVIDENCE["Evidence record<br/>source · timestamp · request context"]
+        EVIDENCE --> CORRELATE["Correlate signals<br/>relationships · confidence · context"]
+        CORRELATE --> INTERPRET["Interpret exposure<br/>technical meaning · limitations"]
+        INTERPRET --> PRIORITY["Prioritize risk<br/>severity · impact · next action"]
+        AI["AI-assisted explanation"] -."supports, does not replace".-> INTERPRET
+        AI -."summarization / context".-> PRIORITY
+        HUMAN["Human review & judgment"] --> PRIORITY
+    end
+
+    %% ─────────────────────────────────────────────────────────────
+    %% OUTPUT PLANE: useful output and controlled feedback loop
+    %% ─────────────────────────────────────────────────────────────
+    subgraph OUTPUT["OUTPUT PLANE · DECISION SUPPORT"]
+        direction LR
+        PRIORITY --> FINDINGS["Finding set<br/>evidence · severity · rationale"]
+        FINDINGS --> REPORT["Actionable report<br/>what · why · where · next"]
+        REPORT --> TRIAGE["Triage & investigation"]
+        TRIAGE --> REMEDIATE["Remediation work<br/>configuration · code · process"]
+        REMEDIATE --> RESCAN["Re-scan / verification"]
+        RESCAN --> JOB
+        REPORT --> MONITOR["Optional monitoring<br/>selected signals over time"]
+        MONITOR --> DRIFT["Change / drift signal"]
+        DRIFT --> PREVIEW
+    end
+
+    %% ─────────────────────────────────────────────────────────────
+    %% PUBLIC BOUNDARY: what this repository represents
+    %% ─────────────────────────────────────────────────────────────
+    subgraph BOUNDARY["PUBLIC BOUNDARY · THIS REPOSITORY"]
+        direction LR
+        DOCS["Project overview<br/>workflow · principles · interfaces"]
+        GATEWAY["Planned public gateway<br/>sanitized integrations · docs · tooling"]
+        CORE["Private production core<br/>application · operations · customer data"]
+        DOCS --> GATEWAY
+        GATEWAY -."controlled public interface".-> CORE
+    end
+
+    JOB -."authorized execution only".-> BOUNDARY
+    REPORT -."sanitized project-level description".-> DOCS
+
+    %% Visual language: blue = control, cyan = collection, violet = analysis,
+    %% orange = output, gray = boundary / human checkpoints.
+    classDef control fill:#e8f0ff,stroke:#2563eb,color:#0f172a,stroke-width:2px
+    classDef collection fill:#e6fffb,stroke:#0faaa0,color:#062c2c,stroke-width:2px
+    classDef analysis fill:#f0eaff,stroke:#7c3aed,color:#241047,stroke-width:2px
+    classDef output fill:#fff0e4,stroke:#ea580c,color:#431407,stroke-width:2px
+    classDef human fill:#f8fafc,stroke:#64748b,color:#0f172a,stroke-width:2px
+    classDef boundary fill:#eef2f7,stroke:#475569,color:#0f172a,stroke-width:2px
+
+    class OWNER,TARGET,INTENT,PREVIEW,JOB control
+    class ORCH,WEB,TLS,HDR,RECON,TECH,RAW collection
+    class NORMALIZE,EVIDENCE,CORRELATE,INTERPRET,PRIORITY,AI analysis
+    class FINDINGS,REPORT,TRIAGE,REMEDIATE,RESCAN,MONITOR,DRIFT output
+    class HUMAN human
+    class DOCS,GATEWAY,CORE boundary
 ```
+
+### Reading the technical flow
+
+| Layer | Technical responsibility | Example output |
+| --- | --- | --- |
+| **Control plane** | Establish authorization, target boundaries, scan intent, and an explicit preview checkpoint before execution. | Approved target and assessment scope |
+| **Collection plane** | Gather independent signals from observable web, transport, browser-control, reconnaissance, and technology surfaces. | Raw HTTP/TLS/header/recon observations |
+| **Analysis plane** | Normalize observations, preserve evidence context, correlate related signals, and add severity and practical interpretation. | Deduplicated, explainable finding candidates |
+| **Output plane** | Turn findings into triage-ready reports, remediation actions, re-scan verification, and optional monitoring signals. | Actionable report and follow-up loop |
+| **Public boundary** | Keep this repository focused on documentation and safe public interfaces while protecting production implementation and operations. | Curated project overview / future gateway |
+
+A few important details are deliberate in this model:
+
+- **Preview is a control point, not decoration.** It gives the operator an opportunity to inspect scope and intent before a more complete assessment.
+- **Signals are not automatically vulnerabilities.** An observation needs context, evidence, and interpretation before it becomes a useful finding.
+- **AI is assistive.** It can help summarize and explain signals, but it does not replace authorization checks, evidence review, threat modeling, or qualified human judgment.
+- **Risk prioritization is contextual.** Severity and next actions should be interpreted alongside architecture, business impact, exposure, asset importance, and known limitations.
+- **Re-scan closes the loop.** The goal is not merely to produce a report; it is to support remediation and verify whether the observable signal changed.
+- **Monitoring is optional and selective.** It represents a way to revisit chosen signals over time, not a claim of continuous or complete coverage.
 
 ## Responsible use
 
