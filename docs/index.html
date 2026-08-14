@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="VulnWatch — website vulnerability intelligence for the modern web.">
+  <meta name="theme-color" content="#080b12">
+  <title>VulnWatch — Website vulnerability intelligence</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="VulnWatch home"><span class="brand-mark"><i></i><i></i><i></i></span><span>VULN<span class="accent">WATCH</span></span></a>
+    <nav aria-label="Primary navigation"><a href="#flow">Assessment flow</a><a href="#capabilities">Capabilities</a><a href="#gateway">Public layer</a></nav>
+    <a class="button button-quiet" href="https://vulnwatch.tech" target="_blank" rel="noreferrer">Open product <span>↗</span></a>
+  </header>
+
+  <main id="top">
+    <section class="hero shell">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="pulse"></span> WEB SECURITY · SIGNAL TO DECISION</p>
+        <h1>See the exposure.<br><em>Understand the risk.</em></h1>
+        <p class="lede">VulnWatch turns authorized website assessments into a clear, prioritized view of what matters next — without burying the signal in noise.</p>
+        <div class="hero-actions"><a class="button button-primary" href="https://vulnwatch.tech" target="_blank" rel="noreferrer">Explore VulnWatch <span>↗</span></a><a class="text-link" href="#flow">See how it works <span>↓</span></a></div>
+        <div class="trust-line"><span>AUTHORIZED TESTING ONLY</span><span>·</span><span>RESPONSIBLE DISCLOSURE</span><span>·</span><span>NO ABSOLUTE GUARANTEES</span></div>
+      </div>
+      <div class="signal-visual" aria-label="Abstract vulnerability signal map" role="img">
+        <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="orbit orbit-three"></div>
+        <div class="crosshair"><span></span><span></span></div>
+        <div class="signal-core"><div class="core-ring"></div><strong>VW</strong><small>ASSESSMENT<br>SIGNAL MAP</small></div>
+        <div class="node node-a"><b></b><span>HTTP / TLS</span></div><div class="node node-b"><b></b><span>HEADERS</span></div><div class="node node-c"><b></b><span>RECON</span></div><div class="node node-d"><b></b><span>RISK</span></div>
+        <div class="scan-line"></div><div class="coord coord-a">43.612° N<br>080.401° W</div><div class="coord coord-b">SIGNAL / 04<br>READY</div>
+      </div>
+    </section>
+
+    <section class="ticker" aria-label="VulnWatch assessment stages"><div class="ticker-track"><span>DISCOVER</span><b>✦</b><span>VERIFY</span><b>✦</b><span>PRIORITIZE</span><b>✦</b><span>REMEDIATE</span><b>✦</b><span>DISCOVER</span><b>✦</b><span>VERIFY</span><b>✦</b><span>PRIORITIZE</span><b>✦</b><span>REMEDIATE</span></div></section>
+
+    <section id="flow" class="section shell">
+      <div class="section-intro"><p class="eyebrow">01 / THE ASSESSMENT LOOP</p><h2>From a target to a<br><em>decision-ready report.</em></h2><p>Testing is designed as a controlled loop. Each stage adds context, keeps the operator in control and turns technical observations into an actionable next step.</p></div>
+      <div class="flow-grid">
+        <article class="flow-step active"><span class="step-num">01</span><div class="step-icon">⌁</div><h3>Scope the target</h3><p>Choose an authorized website and the assessment intent. A preview-first step makes the scope visible before work begins.</p><code>target → scope → preview</code></article>
+        <article class="flow-step"><span class="step-num">02</span><div class="step-icon">◎</div><h3>Collect signals</h3><p>Inspect public-facing behavior across web, transport and configuration surfaces without pretending one pass is exhaustive.</p><code>http · tls · headers · tech</code></article>
+        <article class="flow-step"><span class="step-num">03</span><div class="step-icon">⌘</div><h3>Analyze exposure</h3><p>Correlate observations, reduce noise and frame findings with severity, evidence and useful context.</p><code>evidence → context → risk</code></article>
+        <article class="flow-step"><span class="step-num">04</span><div class="step-icon">↗</div><h3>Act & re-scan</h3><p>Receive a focused report, remediate what matters and repeat the assessment to track change over time.</p><code>report → fix → verify</code></article>
+      </div>
+    </section>
+
+    <section id="capabilities" class="section capabilities-section"><div class="shell"><div class="section-intro split"><div><p class="eyebrow">02 / SIGNAL LAYERS</p><h2>Technical depth.<br><em>Human-readable output.</em></h2></div><p>The product combines complementary inspection layers into one security workflow. It is built to help people decide, not to turn a scan into a wall of jargon.</p></div>
+      <div class="capability-list">
+        <div class="capability"><span class="cap-index">A1</span><div><h3>Web & transport analysis</h3><p>HTTP behavior, TLS posture and observable response characteristics form the first layer of exposure context.</p></div><span class="cap-tag">HTTP / TLS</span></div>
+        <div class="capability"><span class="cap-index">A2</span><div><h3>Security configuration signals</h3><p>Security headers and related browser-facing controls are inspected for meaningful gaps and implementation clues.</p></div><span class="cap-tag">HEADERS</span></div>
+        <div class="capability"><span class="cap-index">A3</span><div><h3>Reconnaissance & technology detection</h3><p>Publicly observable technologies and surface signals add context to findings and help explain where they live.</p></div><span class="cap-tag">RECON</span></div>
+        <div class="capability"><span class="cap-index">A4</span><div><h3>Prioritized reporting</h3><p>Findings are organized around evidence, impact and practical remediation rather than raw volume.</p></div><span class="cap-tag">REPORTING</span></div>
+      </div>
+    </div></section>
+
+    <section id="gateway" class="section shell gateway"><div class="gateway-panel"><div class="gateway-copy"><p class="eyebrow">03 / PUBLIC BY DESIGN</p><h2>A window into the work.<br><em>Not the keys to the building.</em></h2><p>VulnWatch's production application and operational infrastructure remain private. This repository is a safe, presentation-focused gateway: it explains the product, its workflow and its principles without exposing proprietary source code or sensitive systems.</p><p>The long-term direction is a carefully scoped public layer — potentially including documented interfaces, integrations or open-source gateway components that connect to the core product through a safe public boundary.</p><a class="text-link" href="https://github.com/anton-kulyk/vulnwatch-project" target="_blank" rel="noreferrer">View the public repository <span>↗</span></a></div><div class="boundary-diagram"><div class="boundary-box public"><small>PUBLIC LAYER</small><strong>Gateway / docs / integrations</strong><span>safe interface boundary</span></div><div class="boundary-line"><i></i><span>CONTROLLED<br>BOUNDARY</span><i></i></div><div class="boundary-box private"><small>PRIVATE CORE</small><strong>VulnWatch production</strong><span>application + operations</span></div></div></div></section>
+
+    <section class="section principles shell"><div class="section-intro"><p class="eyebrow">04 / OPERATING PRINCIPLES</p><h2>Useful security work is<br><em>careful by default.</em></h2></div><div class="principle-grid"><div><span>01</span><h3>Authorized first</h3><p>Assess only systems you own or have explicit permission to test.</p></div><div><span>02</span><h3>Evidence over drama</h3><p>Findings should be grounded in observable signals and clear limitations.</p></div><div><span>03</span><h3>Action over volume</h3><p>Prioritization matters more than producing the longest list of alerts.</p></div></div></section>
+
+    <section class="closing shell"><div class="closing-mark"><span class="brand-mark large"><i></i><i></i><i></i></span></div><p class="eyebrow">READY TO LOOK CLOSER?</p><h2>Make the next security<br>decision with <em>better signal.</em></h2><a class="button button-primary" href="https://vulnwatch.tech" target="_blank" rel="noreferrer">Visit vulnwatch.tech <span>↗</span></a></section>
+  </main>
+  <footer class="site-footer shell"><span>© VulnWatch</span><span>Website vulnerability intelligence</span><a href="https://github.com/anton-kulyk/vulnwatch-project" target="_blank" rel="noreferrer">GitHub ↗</a></footer>
+  <script src="app.js"></script>
+</body>
+</html>

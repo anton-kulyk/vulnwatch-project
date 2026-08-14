@@ -4,6 +4,7 @@
 
 [![Visit VulnWatch](https://img.shields.io/badge/Visit-vulnwatch.tech-0b1220?style=flat-square&logo=googlechrome&logoColor=white)](https://vulnwatch.tech)
 [![Project overview](https://img.shields.io/badge/Project-overview-2563eb?style=flat-square&logo=github&logoColor=white)](https://github.com/anton-kulyk/vulnwatch-project)
+[![GitHub Pages](https://img.shields.io/badge/Explore-GitHub%20Pages-65e6df?style=flat-square&logo=githubpages&logoColor=0b1220)](https://anton-kulyk.github.io/vulnwatch-project/)
 
 VulnWatch is a cybersecurity platform for **authorized website vulnerability scanning, AI-assisted analysis, risk assessment, and actionable security reporting**.
 
@@ -66,6 +67,28 @@ VulnWatch is intended for **authorized security testing only**.
 Before scanning, make sure you own the target or have explicit permission from the owner. Do not use the platform to probe systems without authorization, bypass access controls, or test third-party infrastructure without a clear scope.
 
 Please do not submit passwords, API keys, private tokens, or other secrets as scan input.
+
+## Explore the project page
+
+The companion [GitHub Pages site](https://anton-kulyk.github.io/vulnwatch-project/) is the visual front door to this repository. It includes:
+
+- a concise explanation of the authorized assessment loop;
+- the signal layers used to frame a website security posture;
+- a clear boundary between the public gateway direction and the private production core;
+- the principles that guide responsible, evidence-based security work.
+
+The page is a static, dependency-light presentation layer. Its animated signal map is illustrative — it is not a live production dashboard and contains no customer or operational data.
+
+## How an assessment is structured
+
+A typical VulnWatch workflow is deliberately progressive:
+
+1. **Scope the target** — select an authorized website and review the intended assessment scope.
+2. **Collect signals** — inspect observable web, transport, security-configuration, reconnaissance, and technology signals.
+3. **Analyze exposure** — add context, evidence, severity, and prioritization rather than presenting raw observations alone.
+4. **Act and re-scan** — use the report to guide remediation, then repeat the assessment to verify change.
+
+This workflow is a decision-support model, not a guarantee of complete coverage. Results should be interpreted alongside the target's architecture, business context, threat model, and qualified human review.
 
 ## Open-source direction
 
