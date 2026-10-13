@@ -266,6 +266,7 @@ Roadmap items are directional and may change as the product and its security req
 - **This public project overview:** [github.com/anton-kulyk/vulnwatch-project](https://github.com/anton-kulyk/vulnwatch-project)
 - **Scanning proxy (open source):** [github.com/anton-kulyk/vulnwatch-proxy](https://github.com/anton-kulyk/vulnwatch-proxy)
 - **GitHub Action for CI scans (open source):** [github.com/anton-kulyk/vulnwatch-scan](https://github.com/anton-kulyk/vulnwatch-scan)
+- **Developer API docs:** [app.vulnwatch.tech/api/docs](https://app.vulnwatch.tech/api/docs)
 
 ## About this repository
 
