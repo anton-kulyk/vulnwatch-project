@@ -254,7 +254,7 @@ The public roadmap is intentionally conservative:
 - [x] Preview and report workflow
 - [ ] Define the public gateway boundary
 - [x] Publish sanitized integration documentation
-- [x] Release selected public interfaces or tooling (`vulnwatch-proxy`, `vulnwatch-scan`)
+- [x] Release selected public interfaces or tooling (`vulnwatch-proxy`, `vulnwatch-scan`, `mcp-server-vulnwatch`)
 - [ ] Establish contribution and security-reporting guidelines for public components
 
 Roadmap items are directional and may change as the product and its security requirements evolve.
@@ -266,6 +266,7 @@ Roadmap items are directional and may change as the product and its security req
 - **This public project overview:** [github.com/anton-kulyk/vulnwatch-project](https://github.com/anton-kulyk/vulnwatch-project)
 - **Scanning proxy (open source):** [github.com/anton-kulyk/vulnwatch-proxy](https://github.com/anton-kulyk/vulnwatch-proxy)
 - **GitHub Action for CI scans (open source):** [github.com/anton-kulyk/vulnwatch-scan](https://github.com/anton-kulyk/vulnwatch-scan)
+- **MCP server for AI agents (open source):** [github.com/anton-kulyk/mcp-server-vulnwatch](https://github.com/anton-kulyk/mcp-server-vulnwatch)
 - **Developer API docs:** [app.vulnwatch.tech/api/docs](https://app.vulnwatch.tech/api/docs)
 
 ## About this repository
