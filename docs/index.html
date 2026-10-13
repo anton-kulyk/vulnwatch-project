@@ -26,6 +26,7 @@
         <a href="#pipeline"><span>03</span>Signal pipeline</a>
         <a href="#outputs"><span>04</span>Findings &amp; outputs</a>
         <a href="#boundaries"><span>05</span>Boundaries &amp; use</a>
+        <a href="#ecosystem"><span>06</span>Public tooling</a>
       </nav>
       <div class="sidebar-note"><span class="note-kicker">DOCUMENT STATUS</span><strong>Public overview</strong><p>This wiki explains the product model. Production source code and operational details remain private.</p></div>
     </aside>
@@ -89,6 +90,40 @@
         <div class="section-heading"><div><p class="kicker">05 <span>·</span> BOUNDARIES</p><h2>Public wiki. Private core.</h2></div><p class="section-summary">This documentation is the public descriptive layer for vulnwatch.tech. It is a window into the product model, not a copy of the production application.</p></div>
         <div class="boundary-grid"><div class="boundary-card public"><span>PUBLIC WIKI</span><strong>Workflow · principles · product model</strong><p>This GitHub Pages site, README, safe diagrams and future sanitized integration documentation.</p></div><div class="boundary-arrow">controlled<br>interface →</div><div class="boundary-card private"><span>PRIVATE PRODUCT CORE</span><strong>Application · operations · customer data</strong><p>Production implementation, deployment configuration, internal endpoints and operational controls remain protected.</p></div></div>
         <div class="responsible"><strong>Responsible use:</strong> VulnWatch is intended for authorized security testing only. Do not scan systems you do not own or have explicit permission to assess. Results are decision support, not a guarantee of complete security or coverage.</div>
+      </section>
+
+      <section id="ecosystem" class="doc-section">
+        <div class="section-heading"><div><p class="kicker">06 <span>·</span> ECOSYSTEM</p><h2>Public tooling &amp; interfaces</h2></div><p class="section-summary">VulnWatch keeps its production core private, but publishes selected reusable pieces around the platform. Each element below is a public interface into the system — a repository to use, an action to run in CI, or live API documentation to integrate against.</p></div>
+        <div class="repo-grid">
+          <article class="repo-card accent-cyan">
+            <header><span class="repo-tag">WIKI · THIS SITE</span><span class="repo-kind">Public overview</span></header>
+            <h3>vulnwatch-project</h3>
+            <p>The public project overview and the wiki you are reading: the assessment model, the signal pipeline, boundaries, and the documentation layer that describes how VulnWatch works without exposing the production application.</p>
+            <ul class="repo-facts"><li>GitHub Pages documentation</li><li>Product &amp; architecture model</li></ul>
+            <a class="repo-link" href="https://github.com/anton-kulyk/vulnwatch-project" target="_blank" rel="noreferrer">github.com/anton-kulyk/vulnwatch-project <span>↗</span></a>
+          </article>
+          <article class="repo-card accent-blue">
+            <header><span class="repo-tag">OPEN SOURCE · SCANNING</span><span class="repo-kind">Docker Compose</span></header>
+            <h3>vulnwatch-proxy</h3>
+            <p>A standalone authenticating HTTP proxy for scanner infrastructure, built on 3proxy. It boots on any Unix VPS with one command and exposes two listeners: one with Basic-auth for tools like curl, Nuclei and WPScan, and one without auth — ACL-locked to your scanner IP — for clients such as Chrome and Puppeteer that cannot send proxy credentials.</p>
+            <ul class="repo-facts"><li>Stable, consistent exit IP per request</li><li>Segments scanner traffic from the local network</li></ul>
+            <a class="repo-link" href="https://github.com/anton-kulyk/vulnwatch-proxy" target="_blank" rel="noreferrer">github.com/anton-kulyk/vulnwatch-proxy <span>↗</span></a>
+          </article>
+          <article class="repo-card accent-violet">
+            <header><span class="repo-tag">OPEN SOURCE · CI</span><span class="repo-kind">GitHub Action</span></header>
+            <h3>vulnwatch-scan</h3>
+            <p>A GitHub Action that runs a VulnWatch assessment straight from your pipeline. It submits an authorized target to the VulnWatch API with a token, waits for completion, reports finding counts by severity plus a risk score, can fail the job at a severity threshold you choose, and can save the raw report JSON as a build artifact.</p>
+            <ul class="repo-facts"><li><code>anton-kulyk/vulnwatch-scan@v1</code></li><li>Fail on threshold (<code>fail_on</code>)</li></ul>
+            <a class="repo-link" href="https://github.com/anton-kulyk/vulnwatch-scan" target="_blank" rel="noreferrer">github.com/anton-kulyk/vulnwatch-scan <span>↗</span></a>
+          </article>
+          <article class="repo-card accent-orange">
+            <header><span class="repo-tag">INTERFACE · LIVE</span><span class="repo-kind">Swagger UI</span></header>
+            <h3>Developer API docs</h3>
+            <p>The interactive reference for the VulnWatch Developer API — authentication model, endpoints, request and response schemas, and the token flow that CI integrations such as vulnwatch-scan use to start scans and read results.</p>
+            <ul class="repo-facts"><li>Token-authenticated</li><li>No guest path on scan endpoints</li></ul>
+            <a class="repo-link" href="https://app.vulnwatch.tech/api/docs" target="_blank" rel="noreferrer">app.vulnwatch.tech/api/docs <span>↗</span></a>
+          </article>
+        </div>
       </section>
 
       <section class="wiki-footer"><p class="kicker">RETURN TO THE PRODUCT</p><h2>Continue at <a href="https://vulnwatch.tech" target="_blank" rel="noreferrer">vulnwatch.tech <span>↗</span></a></h2><p>Use the product website for the current VulnWatch experience. Use this wiki for the descriptive architecture and public project context.</p></section>
