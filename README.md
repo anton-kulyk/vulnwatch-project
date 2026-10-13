@@ -202,6 +202,39 @@ This approach keeps the core product, customer data, deployment configuration, a
 
 > The gateway is a planned direction, not a claim that the production source code is currently open source.
 
+## Public tooling & related repositories
+
+VulnWatch publishes small, reusable **open-source components** around the platform. They live in their own repositories so that useful tooling stays public while the core product, customer data, and deployment configuration remain private — the incremental public-gateway direction described above.
+
+| Repository | What it is | How it connects to VulnWatch |
+| --- | --- | --- |
+| [`vulnwatch-proxy`](https://github.com/anton-kulyk/vulnwatch-proxy) | Standalone authenticating HTTP proxy for scanner infrastructure | Gives the scanning pipeline a stable, consistent exit IP and network path, separating scanner traffic from the local development network. |
+| [`vulnwatch-scan`](https://github.com/anton-kulyk/vulnwatch-scan) | A GitHub Action that triggers a VulnWatch scan from CI | A direct integration point into the VulnWatch API: submit an authorized asset, get severity counts + risk score, and fail the job at a chosen severity threshold. |
+
+### `vulnwatch-proxy`
+
+A small [3proxy](https://github.com/3proxy/3proxy)-based Docker Compose project that boots an authenticating HTTP proxy on any Unix VPS with **one command**, exposing two listeners:
+
+- **`3128`** — Basic-auth (login + password) for clients that support proxy auth (`curl`, Nuclei, WPScan, Guzzle);
+- **`3129`** — no auth, ACL-locked to your scanner IP/subnet, for scanners that cannot send proxy Basic auth (Chrome, Puppeteer).
+
+Both listeners exit through the VPS's own public IP, keeping the exit country consistent for every request — useful for GeoIP-consistent scanning without adding local network traffic.
+
+**Repository:** [github.com/anton-kulyk/vulnwatch-proxy](https://github.com/anton-kulyk/vulnwatch-proxy)
+
+### `vulnwatch-scan`
+
+A GitHub Action ([`anton-kulyk/vulnwatch-scan@v1`](https://github.com/anton-kulyk/vulnwatch-scan)) that runs a VulnWatch assessment directly from your CI pipeline:
+
+- submits a target URL to the VulnWatch API using a token issued in the dashboard;
+- waits for completion and reports finding counts by severity plus a risk score;
+- can **fail the job** when findings cross a severity threshold you choose (`fail_on`);
+- optionally saves the raw report JSON as a build artifact.
+
+Use it for scheduled re-scans of your own authorized site from CI. The endpoint is token-authenticated only — there is no guest path.
+
+**Repository:** [github.com/anton-kulyk/vulnwatch-scan](https://github.com/anton-kulyk/vulnwatch-scan)
+
 ## Project principles
 
 - **Authorization first** — security testing must have a legitimate scope.
@@ -220,8 +253,8 @@ The public roadmap is intentionally conservative:
 - [x] AI-assisted finding analysis
 - [x] Preview and report workflow
 - [ ] Define the public gateway boundary
-- [ ] Publish sanitized integration documentation
-- [ ] Release selected public interfaces or tooling
+- [x] Publish sanitized integration documentation
+- [x] Release selected public interfaces or tooling (`vulnwatch-proxy`, `vulnwatch-scan`)
 - [ ] Establish contribution and security-reporting guidelines for public components
 
 Roadmap items are directional and may change as the product and its security requirements evolve.
@@ -231,6 +264,8 @@ Roadmap items are directional and may change as the product and its security req
 - **Product website:** [vulnwatch.tech](https://vulnwatch.tech)
 - **Contact VulnWatch:** [vulnwatch.tech/contact-us](https://vulnwatch.tech/contact-us)
 - **This public project overview:** [github.com/anton-kulyk/vulnwatch-project](https://github.com/anton-kulyk/vulnwatch-project)
+- **Scanning proxy (open source):** [github.com/anton-kulyk/vulnwatch-proxy](https://github.com/anton-kulyk/vulnwatch-proxy)
+- **GitHub Action for CI scans (open source):** [github.com/anton-kulyk/vulnwatch-scan](https://github.com/anton-kulyk/vulnwatch-scan)
 
 ## About this repository
 
